@@ -1,11 +1,14 @@
 package com.patrick.giphyviewer.ui
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestListener
 import com.patrick.giphyviewer.data.model.Data
 import com.patrick.giphyviewer.databinding.ItemTrendingGifBinding
 import com.patrick.giphyviewer.util.BaseDiffUtil
@@ -34,10 +37,22 @@ class TrendingViewHolder(private val binding: ItemTrendingGifBinding): RecyclerV
     }
 
     fun bind(data: Data): Unit = with(binding) {
+        imageView.layoutParams.apply {
+            width = data.images.original.width.toInt()
+            height = data.images.original.height.toInt()
+        }
         Glide
             .with(this.root)
             .load(data.images.original.url)
             .transition(DrawableTransitionOptions.withCrossFade())
+            .placeholder(
+                CircularProgressDrawable(binding.root.context).apply {
+                    strokeWidth = 5f
+                    centerRadius = 30f
+                    start()
+                }
+            )
             .into(imageView)
+            .clearOnDetach()
     }
 }
