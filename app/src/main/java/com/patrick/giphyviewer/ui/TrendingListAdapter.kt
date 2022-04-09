@@ -38,10 +38,6 @@ class TrendingViewHolder(private val binding: ItemTrendingGifBinding): RecyclerV
             return
         }
 
-        imageView.layoutParams.apply {
-            width = data.images.original.width.toInt()
-            height = data.images.original.height.toInt()
-        }
         Glide
             .with(this.root)
             .load(data.images.original.url)

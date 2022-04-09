@@ -1,9 +1,11 @@
 package com.patrick.giphyviewer.data
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.patrick.giphyviewer.data.model.Data
 import com.patrick.giphyviewer.util.Constants.GIPHY_API_KEY
+import com.patrick.giphyviewer.util.Constants.TAG
 import java.lang.Exception
 import javax.inject.Inject
 
@@ -30,7 +32,7 @@ class GiphyPagingSource @Inject constructor(
             LoadResult.Page(
                 data = response.body()!!.data,
                 prevKey = null,
-                nextKey = params.key?.plus(1)
+                nextKey = offset + 1
             )
         } else {
             LoadResult.Error(Exception(response.message()))
