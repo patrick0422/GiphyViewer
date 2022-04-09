@@ -1,6 +1,7 @@
 package com.patrick.giphyviewer.util
 
 import androidx.recyclerview.widget.DiffUtil
+import com.patrick.giphyviewer.data.model.Data
 
 class BaseDiffUtil<T>(
     private val oldList: List<T>,
@@ -15,4 +16,9 @@ class BaseDiffUtil<T>(
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
         oldList[oldItemPosition] == newList[newItemPosition]
+}
+
+object DataComparator : DiffUtil.ItemCallback<Data>() {
+    override fun areItemsTheSame(oldItem: Data, newItem: Data): Boolean = oldItem.id == newItem.id
+    override fun areContentsTheSame(oldItem: Data, newItem: Data): Boolean = oldItem == newItem
 }
