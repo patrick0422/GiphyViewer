@@ -18,9 +18,11 @@ class GiphyPagingSource @Inject constructor(
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Data> = try {
+        val offset = params.key ?: 0
+        Log.d(TAG, "offset = $offset")
         val queries = HashMap<String, String>().also {
             it["api_key"] = GIPHY_API_KEY
-            it["offset"] = (params.key ?: 0).toString()
+            it["offset"] = offset.toString()
         }
         val response = giphyRepository.getTrendingGifs(queries)
 
@@ -28,7 +30,7 @@ class GiphyPagingSource @Inject constructor(
             LoadResult.Page(
                 data = response.body()!!.data,
                 prevKey = null,
-                nextKey = response.body()!!.pagination.offset + 1
+                nextKey = params.key?.plus(1)
             )
         } else {
             LoadResult.Error(Exception(response.message()))
