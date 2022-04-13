@@ -14,13 +14,11 @@ import com.patrick.giphyviewer.databinding.ItemTrendingGifBinding
 import com.patrick.giphyviewer.util.BaseDiffUtil
 
 class TrendingListAdapter(diffCallback: DiffUtil.ItemCallback<Data>) : PagingDataAdapter<Data, TrendingViewHolder>(diffCallback) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrendingViewHolder = TrendingViewHolder.from(parent)
     override fun onBindViewHolder(holder: TrendingViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrendingViewHolder = TrendingViewHolder.from(parent)
 }
-
 
 class TrendingViewHolder(private val binding: ItemTrendingGifBinding): RecyclerView.ViewHolder(binding.root) {
     companion object {
